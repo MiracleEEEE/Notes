@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+cp}{\PYGZsh{}include} \PYG{c+cpf}{\PYGZlt{}cstdio\PYGZgt{}}
+\PYG{k}{using} \PYG{k}{namespace} \PYG{n}{std}\PYG{p}{;}
+\PYG{k+kt}{int} \PYG{n+nf}{main}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{a}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{b}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{printf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}\PYGZpc{}d}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s}{\PYGZdq{}}\PYG{p}{,}\PYG{n}{a}\PYG{o}{+}\PYG{n}{b}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
