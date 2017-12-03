@@ -1,0 +1,13 @@
+#+TITLE: Notes
+#+AUTHOR: MiracleEEEE
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \setCJKmainfont{宋体}
+#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=red}
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{geometry}
+#+LATEX_HEADER: \geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setsansfont{Arial}
+#+LATEX_HEADER: \setmonofont{Courier New}
+#+LATEX_HEADER: \usepackage{indentfirst}
+#+LATEX_HEADER: \setlength{\parindent}{2em}

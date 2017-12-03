@@ -1,5 +1,14 @@
 #+TITLE: Orgmode Note
 #+AUTHOR: MiracleEEEE
+#+LATEX_HEADER: \usepackage{xeCJK}
+#+LATEX_HEADER: \setCJKmainfont{宋体}
+#+LATEX_HEADER: \hypersetup{colorlinks=true,linkcolor=red}
+#+LATEX_HEADER: \usepackage{minted}
+#+LATEX_HEADER: \usepackage{geometry}
+#+LATEX_HEADER: \geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+#+LATEX_HEADER: \setmainfont{Times New Roman}
+#+LATEX_HEADER: \setsansfont{Arial}
+#+LATEX_HEADER: \setmonofont{Courier New}
 * 笔记结构
 
 ** 章节
@@ -230,7 +239,7 @@ Everything should be made as simple as possible,but not any simpler
 #+END_EXAMPLE
 LATEX能支持直接输入LATEX。
 
-$$ ax+by+c $$
+\] ax+by+c \]
 快捷键：\\
 C-c C-x C-l 预览LATEX图片。\\
 
@@ -315,12 +324,6 @@ PDF格式的导出需要先导出为LATEX文件然后再编译为PDF文件。\\
 \setsansfont{Arial}
 \setmonofont{Courier New}
 #+END_EXAMPLE
-段首缩进：
-#+BEGIN_EXAMPLE
-\usepackage{indentfirst}
-\setlength{\parindent}{2em}
-#+END_EXAMPLE
-
 * 参考资料
 
 [[https://github.com/marboo/orgmode-cn/blob/master/org.org][Org-Manual 7.8]]
