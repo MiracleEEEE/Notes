@@ -1,0 +1,135 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{const} \PYG{k+kt}{int} \PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{100000} \PYG{o}{+} \PYG{l+m+mi}{5}\PYG{p}{;}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n+nf}{rnd}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k}{static} \PYG{k+kt}{int} \PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{20010330}\PYG{p}{;}
+  \PYG{k}{return} \PYG{n}{x} \PYG{o}{+=} \PYG{n}{x} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{l+m+mi}{2} \PYG{o}{|} \PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k}{struct} \PYG{n}{node} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{sz}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{fix}\PYG{p}{;}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{lc}\PYG{p}{;}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{rc}\PYG{p}{;}
+
+  \PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n+nf}{update}\PYG{p}{();}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n+nf}{siz}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{p}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{o}{!}\PYG{n}{p} \PYG{o}{?} \PYG{l+m+mi}{0} \PYG{o}{:} \PYG{n}{p}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{sz}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n}{node}\PYG{o}{::}\PYG{n}{update}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{n}{sz} \PYG{o}{=} \PYG{n}{siz}\PYG{p}{(}\PYG{n}{lc}\PYG{p}{)} \PYG{o}{+} \PYG{n}{siz}\PYG{p}{(}\PYG{n}{rc}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{node} \PYG{n}{pool}\PYG{p}{[}\PYG{n}{N}\PYG{p}{];}
+
+\PYG{k+kr}{inline} \PYG{n}{node}\PYG{o}{*} \PYG{n+nf}{newnode}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{\PYGZus{}v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{static} \PYG{n}{node}\PYG{o}{*} \PYG{n}{ptr} \PYG{o}{=} \PYG{o}{\PYGZam{}}\PYG{n}{pool}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{];}
+  \PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v} \PYG{o}{=} \PYG{n}{\PYGZus{}v}\PYG{p}{;}
+  \PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{sz} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{ptr}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fix} \PYG{o}{=} \PYG{n}{rnd}\PYG{p}{();}
+  \PYG{k}{return} \PYG{n}{ptr}\PYG{o}{++}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{node}\PYG{o}{*} \PYG{n+nf}{merge}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{a}\PYG{p}{,} \PYG{n}{node} \PYG{o}{*}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{a}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{b}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{a}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fix} \PYG{o}{\PYGZlt{}} \PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{fix}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rc} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rc}\PYG{p}{,} \PYG{n}{b}\PYG{p}{);}
+    \PYG{n}{a}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{update}\PYG{p}{();}
+    \PYG{k}{return} \PYG{n}{a}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{a}\PYG{p}{,} \PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{);}
+    \PYG{n}{b}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{update}\PYG{p}{();}
+    \PYG{k}{return} \PYG{n}{b}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{split}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{t}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{p}{(}\PYG{n+nb}{NULL}\PYG{p}{,} \PYG{n+nb}{NULL}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{droot}\PYG{p}{;}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{siz}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{)} \PYG{o}{\PYGZgt{}=} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{droot} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+    \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc} \PYG{o}{=} \PYG{n}{droot}\PYG{p}{.}\PYG{n}{second}\PYG{p}{;}
+    \PYG{n}{droot}\PYG{p}{.}\PYG{n}{second} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}} \PYG{k}{else} \PYG{p}{\PYGZob{}}
+    \PYG{n}{droot} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rc}\PYG{p}{,} \PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{n}{siz}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{);}
+    \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rc} \PYG{o}{=} \PYG{n}{droot}\PYG{p}{.}\PYG{n}{first}\PYG{p}{;}
+    \PYG{n}{droot}\PYG{p}{.}\PYG{n}{first} \PYG{o}{=} \PYG{n}{t}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{update}\PYG{p}{();}
+  \PYG{k}{return} \PYG{n}{droot}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n}{findkth}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*\PYGZam{}}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{x} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{y} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{second}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{ans} \PYG{o}{=} \PYG{n}{y}\PYG{p}{.}\PYG{n}{first}\PYG{p}{;}
+  \PYG{n}{t} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{first}\PYG{p}{,} \PYG{n}{ans}\PYG{p}{),} \PYG{n}{y}\PYG{p}{.}\PYG{n}{second}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{ans}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{if} \PYG{p}{(}\PYG{o}{!}\PYG{n}{t}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{return} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{v} \PYG{o}{\PYGZlt{}=} \PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{v} \PYG{o}{?} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)} \PYG{o}{:} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{rc}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)} \PYG{o}{+} \PYG{n}{siz}\PYG{p}{(}\PYG{n}{t}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{lc}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n}{ins}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*\PYGZam{}}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{node} \PYG{o}{*}\PYG{n}{a} \PYG{o}{=} \PYG{n}{newnode}\PYG{p}{(}\PYG{n}{v}\PYG{p}{);}
+  \PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{v}\PYG{p}{);}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{x} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+  \PYG{n}{t} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{first}\PYG{p}{,} \PYG{n}{a}\PYG{p}{),} \PYG{n}{x}\PYG{p}{.}\PYG{n}{second}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n}{ins\PYGZus{}nodesc}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{v}\PYG{p}{);}
+  \PYG{k}{if} \PYG{p}{(}\PYG{n}{v} \PYG{o}{!=} \PYG{n}{findkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{))} \PYG{p}{\PYGZob{}}
+    \PYG{n}{ins}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{v}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n}{del}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*\PYGZam{}}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{v}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{v}\PYG{p}{);}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{x} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{y} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{second}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{t} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{x}\PYG{p}{.}\PYG{n}{first}\PYG{p}{,} \PYG{n}{y}\PYG{p}{.}\PYG{n}{second}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{node} \PYG{o}{*}\PYG{n}{lft}\PYG{p}{;}
+\PYG{n}{node} \PYG{o}{*}\PYG{n}{mid}\PYG{p}{;}
+\PYG{n}{node} \PYG{o}{*}\PYG{n}{rgt}\PYG{p}{;}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n+nf}{cut}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{l}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{r}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{t1} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{l} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{pair} \PYG{o}{\PYGZlt{}}\PYG{n}{node}\PYG{o}{*}\PYG{p}{,} \PYG{n}{node}\PYG{o}{*\PYGZgt{}} \PYG{n}{t2} \PYG{o}{=} \PYG{n}{split}\PYG{p}{(}\PYG{n}{t1}\PYG{p}{.}\PYG{n}{second}\PYG{p}{,} \PYG{n}{r} \PYG{o}{\PYGZhy{}} \PYG{n}{l} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{lft} \PYG{o}{=} \PYG{n}{t1}\PYG{p}{.}\PYG{n}{first}\PYG{p}{;}
+  \PYG{n}{mid} \PYG{o}{=} \PYG{n}{t2}\PYG{p}{.}\PYG{n}{first}\PYG{p}{;}
+  \PYG{n}{rgt} \PYG{o}{=} \PYG{n}{t2}\PYG{p}{.}\PYG{n}{second}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{void} \PYG{n+nf}{join}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*\PYGZam{}}\PYG{n}{t}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{t} \PYG{o}{=} \PYG{n}{merge}\PYG{p}{(}\PYG{n}{merge}\PYG{p}{(}\PYG{n}{lft}\PYG{p}{,} \PYG{n}{mid}\PYG{p}{),} \PYG{n}{rgt}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n+nf}{pre}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{x}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{findkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{inline} \PYG{k+kt}{int} \PYG{n+nf}{post}\PYG{p}{(}\PYG{n}{node} \PYG{o}{*}\PYG{n}{t}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{o}{++}\PYG{n}{x}\PYG{p}{;}
+  \PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{getkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{x}\PYG{p}{);}
+  \PYG{k}{return} \PYG{n}{findkth}\PYG{p}{(}\PYG{n}{t}\PYG{p}{,} \PYG{n}{k} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}
