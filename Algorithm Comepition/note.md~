@@ -692,10 +692,14 @@ $$
 
 其中
 
-$$\begin{aligned}
-m = \sum_{i=0}^k m_i \cdot p^i\\
-n=\sum_{i=0}^k n_i \cdot p^i\\
-\end{aligned}$$
+$$
+
+\begin{aligned}
+m&=\sum_{i=0}^k m_i \cdot p^i\\
+n&=\sum_{i=0}^k n_i \cdot p^i\\
+\end{aligned}
+
+$$
 
 也可以表示成：
 
@@ -728,14 +732,18 @@ $$
     
     令非负整数 \(m=\sum_{i=0}^k m_i p^i\) ， 那么
     
-    $$\begin{aligned}
+    $$
+    
+    \begin{aligned}
     \sum_{n=0}^m \binom{m}{n}X^n &= (1 + X)^m \\
     &=\prod_ {i=0}^k \Big ((1+X)^{p^i} \Big) ^{m_i}\\
     &\equiv \prod_{i=0}^k(1+X^{p^i})^{m_i}\\
     &=\prod_{i=0}^k\bigg ( \sum_{n_i=0}^{m_i} \binom{m_i}{n_i}X^{n_i p^i} \bigg)\\
     &=\prod_{i=0}^k \bigg (\sum_{n_i=0}^{p-1} \binom{m_i}{n_i}X^{n_ip^i} \bigg)\\
     &=\sum_{n=0}^m \bigg(\prod_{i=0}^k \binom{m_i}{n_i} \bigg) X^n \pmod p
-    \end{aligned}$$
+    \end{aligned}
+    
+    $$
     
     得证，最后一步化简可由上一步展开观察得到。其中， \(m_i\) ， \(n_i\) 分别是 \(m\) 和 \(n\) 在 \(p\) 进制下的第 \(i\) 位。
 

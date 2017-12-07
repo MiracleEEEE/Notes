@@ -1,4 +1,4 @@
-% Created 2017-12-07 Thu 16:43
+% Created 2017-12-07 Thu 21:47
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -47,7 +47,9 @@
 \subsubsection{位运算的性质}
 \label{sec-1-1-1}
 
-$$x+y=x \& y + x | y$$ 
+$$
+x+y=x \& y + x | y
+$$ 
 
 \subsubsection{输出整数的二进制表示}
 \label{sec-1-1-2}
@@ -117,10 +119,10 @@ for (int i = 0; i < 32; ++i) {
 \item 图形填充方案计数
 \label{sec-2-1-1-1-2}
 
-
 有些题目会给一张网格图和一些特殊的图形，求用这些图形填充这张网格图的方案数，特殊的地方在于，网格图的行数或者列数一般会很小。我们可以考虑对小的那一维状态压缩，一般的状态形如: $f[i][s]$ 表示第 $i$ 行状态为 $s$ 的方案数，可以视图形的特殊性考虑要不要附加上一行的状态。
 \end{enumerate}
 \end{enumerate}
+
 \subsection{背包DP}
 \label{sec-2-2}
 \subsubsection{01背包}
@@ -355,9 +357,9 @@ $$
 \end{itemize}
 
 一般情况下，终态确定时倒推，初态确定时正推。
+
 \subsection{树形DP}
 \label{sec-2-5}
-
 \begin{enumerate}
 \item 树形背包
 \label{sec-2-5-0-1}
@@ -373,185 +375,16 @@ $$
 
 一般可以根据题意列出一个直观的状态转移方程。然后可以视转移难度调整状态的设计，合适的状态设计很重要。
 \end{enumerate}
+
 \section{数学}
 \label{sec-3}
-\subsection{线性代数}
-\label{sec-3-1}
-\subsubsection{矩阵}
-\label{sec-3-1-1}
-
-\begin{enumerate}
-\item 矩阵的图论意义
-\label{sec-3-1-1-1}
-
-定义 $A$ 为图 $G$ 的邻接矩阵，对于矩阵 $A^k$ ， $a_{ij}$ 表示从点 $i$ 到点 $j$ 经过 $k$ 条边的路径条数。
-\end{enumerate}
-\subsubsection{线性基}
-\label{sec-3-1-2}
-
-\begin{enumerate}
-\item 定义
-\label{sec-3-1-2-1}
-
-设数集 $T$ 的值域范围为 $[1,2^n-1]$ ， $T$ 的线性基是是 $T$ 的一个生成子集 $A=\{a_0,a_1,a_2,\cdots,a_{n-1}\}$ 。 $A$ 中的元素互相 $xor$ 生成的集合，等价于原数集 $T$ 的元素相互异或形成的异或集合。
-
-\item 性质
-\label{sec-3-1-2-2}
-
-\begin{enumerate}
-\item 线性基的异或集合中不存在 $0$ 。
-\item 线性基的异或集合中每一个元素的异或方案唯一。
-\item 线性基二进制最高位互不相同。
-\item 如果线性基是满的，那么它的异或集合为 $[1,2^n-1]$ 。
-\item 线性基中的元素相互异或，异或集合不变。
-\end{enumerate}
-
-\item 操作
-\label{sec-3-1-2-3}
-
-\begin{enumerate}
-\item 插入
-\label{sec-3-1-2-3-1}
-
-如果向线性基中插入数 $x$ ,那么从高到低扫描它为 $1$ 的二进制位。
-
-扫描到第 $i$ 位时，如果 $a_i$ 不存在，就令 $a_i=x$ ，否则 $x=x \oplus a_i$ 。
-
-$x$ 的结局是，要么被扔进线性基，要么经过一系列操作之后变成了 $0$ 。
-
-\begin{minted}[]{c++}
-for (int j = 50; j >= 0; --j) {
-  if (x & (1ll << j)) {
-    if (a[j]) {
-      x ^= a[j];
-    } else {
-      a[j] = x;
-      break;
-    }
-  }
-}
-\end{minted}
-
-\item 合并
-\label{sec-3-1-2-3-2}
-
-将一个线性基中的元素插入到另一个即可。
-
-\item 查询
-\label{sec-3-1-2-3-3}
-
-如果查询 $x$ 是否存在于 $A$ 的异或集合中，从高到底扫描它为 $1$ 的二进制位，扫描到第 $i$ 位的时候令 $x=x \oplus a_i$ 。如果中途 $x$ 变成了 $0$ ，那么说明存在，反之不存在。
-
-\item 最大值
-\label{sec-3-1-2-3-4}
-
-从高到低位扫描线性基，如果异或后可以使答案变大，就异或到答案里去。
-
-\item 最小值
-\label{sec-3-1-2-3-5}
-
-最小值即最低位上的线性基。
-
-\item k小值
-\label{sec-3-1-2-3-6}
-
-首先将线性基改为每一位相互独立:对于 $i < j$ ，如果 $a_j$ 的第 $i$ 位为 $0$ ，那么就让 $a_j=a_j \oplus a_i$ ，同时删除等于 $0$ 的 $a_i$ 。查询的时候将 $k$ 二进制拆分，对于 $k$ 为 $1$ 的位，异或上对应的线性基。
-
-\begin{minted}[]{c++}
-inline void init() {
-  for (int i = 0; i <= 50; ++i) {
-    for (int j = i - 1; j >= 0; --j) {
-      if (a[i] & (1ll << j)) {
-        a[i] ^= a[j];
-      }
-    }
-  }
-  for (int i = 0; i <= 50; ++i) {
-    if (a[i]) {
-      b[cnt++] = a[i];
-    }
-  }
-}
-
-inline void query(int k) {
-  int ret = 0;
-  if (k >= (1ll << cnt)) {
-    return -1;
-  }
-  for (int i = 50; i >= 0; --i) {
-    if (k & (1ll << i)) {
-      ret ^= a[i];
-    }
-  }
-  return ret;
-}
-\end{minted}
-\end{enumerate}
-\end{enumerate}
-\subsection{计算几何}
-\label{sec-3-2}
-\subsubsection{向量}
-\label{sec-3-2-1}
-
-\includegraphics[width=.9\linewidth]{./Source/Picture/vector.png}
-
-易得向量 $(x,y)$ 在顺时针旋转 $\theta$ 角后得到向量 $(x',y')$ 。其中
-
-$$\begin{aligned}
-x'=xcos \theta+ysin\theta \\
-y'=ycos \theta-xsin\theta
-\end{aligned}$$
-
-\subsubsection{曼哈顿距离}
-\label{sec-3-2-2}
-\begin{enumerate}
-\item 转切比雪夫距离
-\label{sec-3-2-2-1}
-
-对于两个点 $A(x1,y1)$ ， $B(x2,y2)$ 的曼哈顿距离等于 $|x_1-x_2|+|y_1-y_2|$ 。  
-
-这个形式的式子往往不是很好处理，考虑转化：
-
-拆绝对值：
-
-$$\begin{aligned}
-x_1-x_2+y_1-y_2 \\
-x_1-x_2+y_2-y_1 \\
-x_2-x_1+y_1-y_2 \\
-x_2-x_1+y_2-y_1
-\end{aligned}$$
-
-最后的答案就是四个式子中的最大值，那么等价于：
-
-$$
-max\{|(x_1+y_1)-(x_2+y_2)|,|(x_1-y_1)-(x_2-y_2)|\}
-$$
-
-设：
-
-$$\begin{aligned}
-x_1'=x_1+y_1 \\
-y_1'=x_1-y_1 \\
-x_2'=x_2+y_2 \\
-y_2'=x_2-y_2 \\
-\end{aligned}$$
-
-
-那么答案等于
-
-$$
-max\{|x_1'-x_2'|,|y_1'-y_2'|\}
-$$
-\end{enumerate}
-
 \subsection{数论}
-\label{sec-3-3}
+\label{sec-3-1}
 \subsubsection{约数}
-\label{sec-3-3-1}
-
+\label{sec-3-1-1}
 \begin{enumerate}
 \item 性质
-\label{sec-3-3-1-1}
+\label{sec-3-1-1-1}
 
 $$
 lcm(a,b) = ab/gcd(a,b)
@@ -560,7 +393,7 @@ $$
 如果任意整数 $a,b$ 都不为 $0$  ，则 $gcd(a,b)$ 是 $a$ 与 $b$ 的线性组合集 $\{ax+by:x,y \in Z\}$ 中的最小正元素。
 
 \item 欧几里得算法
-\label{sec-3-3-1-2}
+\label{sec-3-1-1-2}
 
 定理： $gcd(a, b) = gcd(b, a \bmod b)$ 。
 
@@ -578,7 +411,7 @@ long long gcd(long long a, long long b) {
 \end{minted}
 
 \item 预处理
-\label{sec-3-3-1-3}
+\label{sec-3-1-1-3}
 
 一个 $O(n)$ 预处理， $O(1)$ 查询的做法。
 
@@ -688,8 +521,17 @@ inline int query(int x, int y) {
 \end{minted}
 \end{enumerate}
 
+\subsubsection{剩余系}
+\label{sec-3-1-2}
+
+在有些时候选择合适的剩余系可以化简问题。
+
+如：求 $Ak_0+Bk_1+Ck_2$ 在 $[0,h]$ 区间内有多少种取值。 $h \leq 1e18,A, B, C \leq 1e5$ 。
+
+考虑把这个式子放到 $\bmod A$ 意义下，得到 $Bk_1+Ck_2 \equiv h \pmod A$ 。那么，如果我们知道了最小的 $X_i$ 满足 $Bk_1+Ck_2=X_i \equiv i \pmod A$ ，那么对于所有小于等于 $h$ 的 $X_i+Ak_0$ 一定都可以满足。那么答案就是 $\sum_{i=0}^{A-1} \Big(\Big\lfloor \frac{h-X_i}{A} \Big \rfloor+1\Big)$ 。考虑建图，从 $i$ 向 $(i+B) \bmod A,(i+C) \bmod A$ 连边 $(0\leq i < A)$ 。求最短路即可。
+
 \subsubsection{Lucas定理}
-\label{sec-3-3-2}
+\label{sec-3-1-3}
 
 $$
 {\binom {m}{n}}\equiv \prod _{i=0}^{k}{\binom {m_{i}}{n_{i}}}{\pmod {p}}
@@ -698,8 +540,8 @@ $$
 其中
 
 $$\begin{aligned}
-m = \sum_{i=0}^k m_i \cdot p^i\\
-n=\sum_{i=0}^k n_i \cdot p^i\\
+m&=\sum_{i=0}^k m_i \cdot p^i\\
+n&=\sum_{i=0}^k n_i \cdot p^i\\
 \end{aligned}$$
 
 也可以表示成：
@@ -711,7 +553,7 @@ $$
 
 \begin{enumerate}
 \item 证明
-\label{sec-3-3-2-1}
+\label{sec-3-1-3-1}
 
 基于生成函数的证明：
 
@@ -748,15 +590,15 @@ $$\begin{aligned}
 得证，最后一步化简可由上一步展开观察得到。其中， $m_i$ ， $n_i$ 分别是 $m$ 和 $n$ 在 $p$ 进制下的第 $i$ 位。
 
 \item 结论
-\label{sec-3-3-2-2}
+\label{sec-3-1-3-2}
 
 组合数 $\binom{m}{n}$ 能被质数 $p$ 整除当且仅当存在至少一个 $i$ 使得在 $n$ 和 $m$ 在 $p$ 进制下有 $n_i > m_i$ 成立。
 \end{enumerate}
 \subsubsection{扩展欧几里得算法}
-\label{sec-3-3-3}
+\label{sec-3-1-4}
 \begin{enumerate}
 \item 证明
-\label{sec-3-3-3-1}
+\label{sec-3-1-4-1}
 
 假设我们已经得到了关于 $x'b+y'(a \bmod b)=gcd(b,a \bmod b)=d$ 的一组解 $x,y$ 。
 
@@ -795,21 +637,180 @@ void exgcd(long long a, long long b, long long &x, long long &y) {
 \end{minted}
 
 \item 应用
-\label{sec-3-3-3-2}
+\label{sec-3-1-4-2}
 
 当 $a, p$ 互质时，扩展欧几里得算法能用来求解 $a$ 在 $\bmod p$ 意义下的逆元。
 
 有： $ax \equiv 1 \bmod p$  ，也就是 $ax + py = 1$  。当 $gcd(a,p)=1$ 的时候用扩展欧几里得求出一组解 $x,y$  。因为 $a,p$ 互质所以 $x+k* \frac{lcm(a,p)}{a} = x + k * p$ 都为方程的解。在 $\bmod p$ 意义下的逆元为 $((x \bmod p) + p) \bmod p$  。
 \end{enumerate}
 
-\subsubsection{剩余系}
-\label{sec-3-3-4}
+\subsection{线性代数}
+\label{sec-3-2}
+\subsubsection{矩阵}
+\label{sec-3-2-1}
+\begin{enumerate}
+\item 矩阵的图论意义
+\label{sec-3-2-1-1}
 
-在有些时候选择合适的剩余系可以化简问题。
+定义 $A$ 为图 $G$ 的邻接矩阵，对于矩阵 $A^k$ ， $a_{ij}$ 表示从点 $i$ 到点 $j$ 经过 $k$ 条边的路径条数。
+\end{enumerate}
 
-如：求 $Ak_0+Bk_1+Ck_2$ 在 $[0,h]$ 区间内有多少种取值。 $h \leq 1e18,A, B, C \leq 1e5$ 。
+\subsubsection{线性基}
+\label{sec-3-2-2}
+\begin{enumerate}
+\item 定义
+\label{sec-3-2-2-1}
 
-考虑把这个式子放到 $\bmod A$ 意义下，得到 $Bk_1+Ck_2 \equiv h \pmod A$ 。那么，如果我们知道了最小的 $X_i$ 满足 $Bk_1+Ck_2=X_i \equiv i \pmod A$ ，那么对于所有小于等于 $h$ 的 $X_i+Ak_0$ 一定都可以满足。那么答案就是 $\sum_{i=0}^{A-1} \Big(\Big\lfloor \frac{h-X_i}{A} \Big \rfloor+1\Big)$ 。考虑建图，从 $i$ 向 $(i+B) \bmod A,(i+C) \bmod A$ 连边 $(0\leq i < A)$ 。求最短路即可。
+设数集 $T$ 的值域范围为 $[1,2^n-1]$ ， $T$ 的线性基是是 $T$ 的一个生成子集 $A=\{a_0,a_1,a_2,\cdots,a_{n-1}\}$ 。 $A$ 中的元素互相 $xor$ 生成的集合，等价于原数集 $T$ 的元素相互异或形成的异或集合。
+
+\item 性质
+\label{sec-3-2-2-2}
+
+\begin{enumerate}
+\item 线性基的异或集合中不存在 $0$ 。
+\item 线性基的异或集合中每一个元素的异或方案唯一。
+\item 线性基二进制最高位互不相同。
+\item 如果线性基是满的，那么它的异或集合为 $[1,2^n-1]$ 。
+\item 线性基中的元素相互异或，异或集合不变。
+\end{enumerate}
+
+\item 操作
+\label{sec-3-2-2-3}
+
+\begin{enumerate}
+\item 插入
+\label{sec-3-2-2-3-1}
+
+如果向线性基中插入数 $x$ ,那么从高到低扫描它为 $1$ 的二进制位。
+
+扫描到第 $i$ 位时，如果 $a_i$ 不存在，就令 $a_i=x$ ，否则 $x=x \oplus a_i$ 。
+
+$x$ 的结局是，要么被扔进线性基，要么经过一系列操作之后变成了 $0$ 。
+
+\begin{minted}[]{c++}
+for (int j = 50; j >= 0; --j) {
+  if (x & (1ll << j)) {
+    if (a[j]) {
+      x ^= a[j];
+    } else {
+      a[j] = x;
+      break;
+    }
+  }
+}
+\end{minted}
+
+\item 合并
+\label{sec-3-2-2-3-2}
+
+将一个线性基中的元素插入到另一个即可。
+
+\item 查询
+\label{sec-3-2-2-3-3}
+
+如果查询 $x$ 是否存在于 $A$ 的异或集合中，从高到底扫描它为 $1$ 的二进制位，扫描到第 $i$ 位的时候令 $x=x \oplus a_i$ 。如果中途 $x$ 变成了 $0$ ，那么说明存在，反之不存在。
+
+\item 最大值
+\label{sec-3-2-2-3-4}
+
+从高到低位扫描线性基，如果异或后可以使答案变大，就异或到答案里去。
+
+\item 最小值
+\label{sec-3-2-2-3-5}
+
+最小值即最低位上的线性基。
+
+\item k小值
+\label{sec-3-2-2-3-6}
+
+首先将线性基改为每一位相互独立:对于 $i < j$ ，如果 $a_j$ 的第 $i$ 位为 $0$ ，那么就让 $a_j=a_j \oplus a_i$ ，同时删除等于 $0$ 的 $a_i$ 。查询的时候将 $k$ 二进制拆分，对于 $k$ 为 $1$ 的位，异或上对应的线性基。
+
+\begin{minted}[]{c++}
+inline void init() {
+  for (int i = 0; i <= 50; ++i) {
+    for (int j = i - 1; j >= 0; --j) {
+      if (a[i] & (1ll << j)) {
+        a[i] ^= a[j];
+      }
+    }
+  }
+  for (int i = 0; i <= 50; ++i) {
+    if (a[i]) {
+      b[cnt++] = a[i];
+    }
+  }
+}
+
+inline void query(int k) {
+  int ret = 0;
+  if (k >= (1ll << cnt)) {
+    return -1;
+  }
+  for (int i = 50; i >= 0; --i) {
+    if (k & (1ll << i)) {
+      ret ^= a[i];
+    }
+  }
+  return ret;
+}
+\end{minted}
+\end{enumerate}
+\end{enumerate}
+\subsection{计算几何}
+\label{sec-3-3}
+\subsubsection{向量}
+\label{sec-3-3-1}
+
+\includegraphics[width=.9\linewidth]{./Source/Picture/vector.png}
+
+易得向量 $(x,y)$ 在顺时针旋转 $\theta$ 角后得到向量 $(x',y')$ 。其中
+
+$$\begin{aligned}
+x'=xcos \theta+ysin\theta \\
+y'=ycos \theta-xsin\theta
+\end{aligned}$$
+
+\subsubsection{曼哈顿距离}
+\label{sec-3-3-2}
+\begin{enumerate}
+\item 转切比雪夫距离
+\label{sec-3-3-2-1}
+
+对于两个点 $A(x1,y1)$ ， $B(x2,y2)$ 的曼哈顿距离等于 $|x_1-x_2|+|y_1-y_2|$ 。  
+
+这个形式的式子往往不是很好处理，考虑转化：
+
+拆绝对值：
+
+$$\begin{aligned}
+x_1-x_2+y_1-y_2 \\
+x_1-x_2+y_2-y_1 \\
+x_2-x_1+y_1-y_2 \\
+x_2-x_1+y_2-y_1
+\end{aligned}$$
+
+最后的答案就是四个式子中的最大值，那么等价于：
+
+$$
+max\{|(x_1+y_1)-(x_2+y_2)|,|(x_1-y_1)-(x_2-y_2)|\}
+$$
+
+设：
+
+$$\begin{aligned}
+x_1'=x_1+y_1 \\
+y_1'=x_1-y_1 \\
+x_2'=x_2+y_2 \\
+y_2'=x_2-y_2 \\
+\end{aligned}$$
+
+
+那么答案等于
+
+$$
+max\{|x_1'-x_2'|,|y_1'-y_2'|\}
+$$
+\end{enumerate}
 
 \subsection{组合数学}
 \label{sec-3-4}
@@ -2383,9 +2384,7 @@ $Small\ Label\ First$  策略：设要加入的节点为 $j$ ，队首节点为 
 \item 实现
 \label{sec-6-6-2-3}
 
-时间复杂度 $O(km)$ ， $k$ 在不刻意构造数据的情况下\footnote{SPFA在网格图以及稠密图下表现不佳。最坏情况下时间复杂度为O(nm)。
-
-\#END}为 $1$ 或 $2$ 。
+时间复杂度 $O(km)$ ， $k$ 在不刻意构造数据的情况下\footnote{SPFA在网格图以及稠密图下表现不佳。最坏情况下时间复杂度为O(nm)。}为 $1$ 或 $2$ 。
 
 \begin{minted}[]{c++}
 const int N = 10000 + 5;
