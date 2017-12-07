@@ -1,29 +1,5 @@
-(function () { var newMathJax =
-'<https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js>'; var
-oldMathJax = 'cdn.mathjax.org/mathjax/latest/MathJax.js';
 
-var replaceScript = function (script, src) { // // Make redirected
-script // var newScript = document.createElement('script');
-newScript.src = newMathJax + src.replace(*.\*?(\\?\|$)*, '$1'); // //
-Move onload and onerror handlers to new script // newScript.onload =
-script.onload; newScript.onerror = script.onerror; script.onload =
-script.onerror = null; // // Move any content (old-style configuration
-scripts) // while (script.firstChild)
-newScript.appendChild(script.firstChild); // // Copy script id // if
-(script.id != null) newScript.id = script.id; // // Replace original
-script with new one // script.parentNode.replaceChild(newScript,
-script); // // Issue a console warning // console.warn('WARNING:
-cdn.mathjax.org has been retired. Check
-<https://www.mathjax.org/cdn-shutting-down/> for migration tips.') }
-
-if (document.currentScript) { var script = document.currentScript;
-replaceScript(script, script.src); } else { // // Look for current
-script by searching for one with the right source // var n =
-oldMathJax.length; var scripts =
-document.getElementsByTagName('script'); for (var i = 0; i \<
-scripts.length; i++) { var script = scripts\[i\]; var src = (script.src
-\|\| '').replace(*.\*?:\\/\\/*,''); if (src.substr(0, n) `=` oldMathJax)
-{ replaceScript(script, src); break; } } } })();
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script>
 
 基础算法
 ========
@@ -46,21 +22,21 @@ x+y=x \& y + x | y
 
 ### 基本操作
 
-| 操作                          | 实现                       |
-|-------------------------------|----------------------------|
-| 去掉最后一位                  | x \>\> 1                   |
-| 在最后加一个0                 | x \<\< 1                   |
-| 在最后加一个1                 | (x \<\< 1) or 1            |
-| 把最后一位变成1               | x or 1                     |
-| 把最后一位变成0               | (x or 1) - 1               |
-| 在最后一位取反                | x xor 1                    |
-| 右数第k位取反                 | x xor (1 \<\< k)           |
-| 取末k位                       | x and ((1 \<\< k + 1) - 1) |
-| 末k位取反                     | x xor ((1 \<\< k + 1) - 1) |
-| 把右边连续的1变成0            | x and (x + 1)              |
-| 把右起第一个0变成1            | x or (x + 1)               |
-| 把右边连续的0变成1            | x or (x - 1)               |
-| 取右边连续的1                 | (x xor (x + 1)) \>\> 1     |
+| 操作                  | 实现                         |
+| ------------------- | -------------------------- |
+| 去掉最后一位              | x \>\> 1                   |
+| 在最后加一个0             | x \<\< 1                   |
+| 在最后加一个1             | (x \<\< 1) or 1            |
+| 把最后一位变成1            | x or 1                     |
+| 把最后一位变成0            | (x or 1) - 1               |
+| 在最后一位取反             | x xor 1                    |
+| 右数第k位取反             | x xor (1 \<\< k)           |
+| 取末k位                | x and ((1 \<\< k + 1) - 1) |
+| 末k位取反               | x xor ((1 \<\< k + 1) - 1) |
+| 把右边连续的1变成0          | x and (x + 1)              |
+| 把右起第一个0变成1          | x or (x + 1)               |
+| 把右边连续的0变成1          | x or (x - 1)               |
+| 取右边连续的1             | (x xor (x + 1)) \>\> 1     |
 | 去掉右起第一个1的左边(lowbit) | x & -x                     |
 
 动态规划
@@ -451,16 +427,16 @@ f[u][j] = max(f[u][j], f[v][k] + f[u][j - k])
           }
           return !y ? (gcd[x][y] = x) : (gcd[x][y] = dfs(y, x % y));
         }
-
+        
         int f[MAX][3];
-
+        
         bool not_prime[MAX];
-
+        
         int p[79001];
         int tot;
-
+        
         int mindiv[MAX];
-
+        
         inline void init() {
           for (int i = 0; i < N; ++i) {
             for (int j = 0; j < N; ++j) {
@@ -501,9 +477,9 @@ f[u][j] = max(f[u][j], f[v][k] + f[u][j - k])
             }
           }
         }
-
+        
         int lim = 1000;
-
+        
         inline int query(int x, int y) {
           if (x == 0 || y == 0) {
             return x + y;
@@ -756,7 +732,7 @@ n&=\sum_{i=0}^k n_i \cdot p^i\\
                 }
               }
             }
-
+            
             inline void query(int k) {
               int ret = 0;
               if (k >= (1ll << cnt)) {
@@ -989,27 +965,27 @@ Treap
       static int x = 20010330;
       return x += x << 2 | 1;
     }
-
+    
     struct node {
       int v;
       int sz;
       int fix;
       node *lc;
       node *rc;
-
+    
       inline void update();
     };
-
+    
     inline int siz(node *p) {
       return !p ? 0 : p->sz;
     }
-
+    
     inline void node::update() {
       sz = siz(lc) + siz(rc) + 1;
     }
-
+    
     node pool[N];
-
+    
     inline node* newnode(int _v) {
       static node* ptr = &pool[0];
       ptr->v = _v;
@@ -1017,7 +993,7 @@ Treap
       ptr->fix = rnd();
       return ptr++;
     }
-
+    
     node* merge(node *a, node *b) {
       if (!a) {
         return b;
@@ -1035,7 +1011,7 @@ Treap
         return b;
       }
     }
-
+    
     pair <node*, node*> split(node *t, int k) {
       if (!t) {
         return pair <node*, node*> (NULL, NULL);
@@ -1053,7 +1029,7 @@ Treap
       t->update();
       return droot;
     }
-
+    
     inline int findkth(node *&t, int k) {
       pair <node*, node*> x = split(t, k - 1);
       pair <node*, node*> y = split(x.second, 1);
@@ -1061,39 +1037,39 @@ Treap
       t = merge(merge(x.first, ans), y.second);
       return ans->v;
     }
-
+    
     inline int getkth(node *t, int v) {
       if (!t) {
         return 0;
       }
       return v <= t->v ? getkth(t->lc, v) : getkth(t->rc, v) + siz(t->lc) + 1;
     }
-
+    
     inline void ins(node *&t, int v) {
       node *a = newnode(v);
       int k = getkth(t, v);
       pair <node*, node*> x = split(t, k);
       t = merge(merge(x.first, a), x.second);
     }
-
+    
     inline void ins_nodesc(node *t, int v) {
       int k = getkth(t, v);
       if (v != findkth(t, k + 1)) {
         ins(t, v);
       }
     }
-
+    
     inline void del(node *&t, int v) {
       int k = getkth(t, v);
       pair <node*, node*> x = split(t, k);
       pair <node*, node*> y = split(x.second, 1);
       t = merge(x.first, y.second);
     }
-
+    
     node *lft;
     node *mid;
     node *rgt;
-
+    
     inline void cut(node *t, int l, int r) {
       pair <node*, node*> t1 = split(t, l - 1);
       pair <node*, node*> t2 = split(t1.second, r - l + 1);
@@ -1101,16 +1077,16 @@ Treap
       mid = t2.first;
       rgt = t2.second;
     }
-
+    
     inline void join(node *&t) {
       t = merge(merge(lft, mid), rgt);
     }
-
+    
     inline int pre(node *t, int x) {
       int k = getkth(t, x);
       return findkth(t, k);
     }
-
+    
     inline int post(node *t, int x) {
       ++x;
       int k = getkth(t, x);
@@ -1122,21 +1098,21 @@ Treap
 
 ### 左偏树的时间复杂度
 
-| 操作     | 时间复杂度     |
-|----------|----------------|
-| 插入     | \\(O(nlogn)\\) |
+| 操作   | 时间复杂度          |
+| ---- | -------------- |
+| 插入   | \\(O(nlogn)\\) |
 | 删除极值 | \\(O(nlogn)\\) |
-| 合并     | \\(O(nlogn)\\) |
+| 合并   | \\(O(nlogn)\\) |
 
 ### 实现
 
 可并堆的所有操作都由 \\(merge\\) 函数实现。
 
-| 操作     | 实现                                       |
-|----------|--------------------------------------------|
-| 插入     | 将插入元素当成一个只有一个元素的左偏树合并 |
-| 删除极值 | 合并树根的左孩子和右孩子                   |
-| 合并     | 直接合并即可                               |
+| 操作   | 实现                    |
+| ---- | --------------------- |
+| 插入   | 将插入元素当成一个只有一个元素的左偏树合并 |
+| 删除极值 | 合并树根的左孩子和右孩子          |
+| 合并   | 直接合并即可                |
 
     const int N = 100000 + 5;
 
@@ -1146,20 +1122,20 @@ Treap
       node *lc;
       node *rc;
     };
-
+    
     node pool[N];
-
+    
     inline int h(node *p) {
       return (p == NULL) ? 0 : p->dist;
     }
-
+    
     inline void fix(node *p) {
       if (h(p->lc) < h(p->rc)) {
         swap(p->lc, p->rc);
       }
       p->dist = p->lc->dist + 1;
     }
-
+    
     node* merge(node *a, node *b) {
       if (!b) {
         return a;
@@ -1175,7 +1151,7 @@ Treap
       fix(a);
       return a;
     }
-
+    
     inline node* newnode(int v) {
       static node *ptr = &pool[0];
       ptr->val = v;
@@ -1214,16 +1190,16 @@ Link-Cut-Tree
       node *r;
       node *fa;
       bool rtag;
-
+    
       void rev() {
         swap(l, r);
         rtag ^= 1;
       }
-
+    
       void update() {
         xv = l->xv ^ r->xv ^ v;
       }
-
+    
       void pushup() {
         if (fa->l == this || fa->r == this) {
           fa->pushup();
@@ -1235,11 +1211,11 @@ Link-Cut-Tree
         }
       }
     };
-
+    
     node p[N];
     node *t[N];
     node *null = p;
-
+    
     inline node* newnode(int v) {
       static node* ptr = &p[1];
       ptr->l = null;
@@ -1248,7 +1224,7 @@ Link-Cut-Tree
       ptr->v = v;
       return ptr++;
     }
-
+    
     inline void rot(node *x) {
       node *y = x->fa;
       node *z = y->fa;
@@ -1272,7 +1248,7 @@ Link-Cut-Tree
       x->fa = z;
       y->update();
     }
-
+    
     inline void splay(node *x) {
       node *y = null;
       node *z = null;
@@ -1287,7 +1263,7 @@ Link-Cut-Tree
       }
       x->update();
     }
-
+    
     inline void access(node *x) {
       node *y = null;
       while (x != null) {
@@ -1298,18 +1274,18 @@ Link-Cut-Tree
         x = x->fa;
       }
     }
-
+    
     inline void make_root(node *x) {
       access(x);
       splay(x);
       x->rev();
     }
-
+    
     inline void link(node *x, node *y) {
       make_root(x);
       x->fa = y;
     }
-
+    
     inline void cut(node *x, node *y) {
       make_root(x);
       access(y);
@@ -1320,7 +1296,7 @@ Link-Cut-Tree
         y->update();
       }
     }
-
+    
     node* find_fa(node *x) {
       while (x->fa != null) {
         x = x->fa;
@@ -1393,14 +1369,14 @@ Manacher
 
         int n;
         int m;
-
+        
         char s[N];
-
+        
         int c[N];
         int sa[N];
         int t0[N];
         int t1[N];
-
+        
         inline void build() {
           n = strlen(s);
           m = 256;
@@ -1418,7 +1394,7 @@ Manacher
             --c[x[i]];
             sa[c[x[i]]] = i;
           }
-
+        
           for (int k = 1; k <= n; k <<= 1) {
             int p = 0;
             for (int i = n - k; i < n; ++i) {
@@ -1429,7 +1405,7 @@ Manacher
                 y[p++] = sa[i] - k;
               }
             }
-
+        
             for (int i = 0; i < m; ++i) {
               c[i] = 0;
             }
@@ -1443,7 +1419,7 @@ Manacher
               int t = --c[x[y[i]]];
               sa[t] = y[i];
             }
-
+        
             p = 1;
             swap(x, y);
             x[sa[0]] = 0;
@@ -1459,7 +1435,7 @@ Manacher
             }
             m = p;
           }
-
+        
           --n;
           for (int i = 0; i < n; ++i) {
             sa[i] = sa[i + 1];
@@ -1599,13 +1575,13 @@ Manacher
 
 10. 多字符串问题
 
-    求出现在至少k个字符串中的最长子串
+  求出现在至少k个字符串中的最长子串
 
-    将 \\(n\\)
-    个字符串中间加入特殊字符连接起来，求后缀数组。然后二分答案分块，如果一个块内出现至少
-    \\(k\\) 个字符串中的子串那么合法，反之不合法。
+  将 \\(n\\)
+  个字符串中间加入特殊字符连接起来，求后缀数组。然后二分答案分块，如果一个块内出现至少
+  \\(k\\) 个字符串中的子串那么合法，反之不合法。
 
-    其他特殊子串类型做法也类似，可以二分答案后分块判断可行性。
+  其他特殊子串类型做法也类似，可以二分答案后分块判断可行性。
 
 ### 资料
 
@@ -1704,7 +1680,7 @@ Manacher
 
             int lnk[N];
             bool vis[N];
-
+            
             bool dfs(int u) {
               for (int o = head[u]; ~o; o = e[o].nxt) {
                 int v = e[o].to;
@@ -1718,7 +1694,7 @@ Manacher
               }
               return false;
             }
-
+            
             inline int max_match() {
               int ret = 0;
               memset(lnk, -1, sizeof(lnk));
@@ -1899,7 +1875,7 @@ Manacher
         int h;
         int t;
         int que[N];
-
+        
         inline void toposort() {
           for (int u = 0; u < n; ++u) {
             for (int o = head[u]; ~o; o = e[o].nxt) {
@@ -1941,10 +1917,10 @@ Manacher
 
         const int N = 100000 + 5;
         const int LOGN = 19;
-
+        
         int dep[N];
         int fa[N][LOGN];
-
+        
         void dfs(int u, int pre) {
           fa[u][0] = pre;
           for (int o = head[u]; ~o; o = e[o].nxt) {
@@ -1956,7 +1932,7 @@ Manacher
             dfs(v, u);
           }
         }
-
+        
         inline void init() {
           memset(fa, -1, sizeof(fa));
           dfs(0, -1);
@@ -1969,7 +1945,7 @@ Manacher
           }
           return;
         }
-
+        
         inline int query(int a, int b) {
           if (dep[a] < dep[b]) {
             swap(a, b);
@@ -2014,15 +1990,15 @@ Manacher
 
         const int N = 100000 + 5;
         const int Q = 200000 + 5;
-
+        
         int s[N];
         int lca[Q];
         vector < pair <int, int> > q[N];
-
+        
         int get(int x) {
           return s[x] == x ? x : s[x] = get(s[x]);
         }
-
+        
         void dfs(int u, int pre) {
           col[u] = 1;
           for (int o = head[u]; ~o; o = e[o].nxt) {
@@ -2077,7 +2053,7 @@ Manacher
         int top[N];
         int siz[N];
         int son[N];
-
+        
         void dfs0(int u, int pre) {
           fa[u] = pre;
           siz[u] = 1;
@@ -2094,7 +2070,7 @@ Manacher
             }
           }
         }
-
+        
         void dfs1(int u, int pre, int anc) {
           top[u] = anc;
           if (son[u] != -1) {
@@ -2108,7 +2084,7 @@ Manacher
             dfs1(v, u, v);
           }
         }
-
+        
         int lca(int a, int b) {
           while (top[a] != top[b]) {
             if (dep[top[a]] >= dep[top[b]]) {
@@ -2119,7 +2095,7 @@ Manacher
           }
           return dep[a] > dep[b] ? b : a;
         }
-
+        
         void init() {
           memset(fa, -1, sizeof(fa));
           memset(son, -1, sizeof(son));
@@ -2199,10 +2175,10 @@ Manacher
         bool cmp(int a, int b) {
           return dfn[a] < dfn[b];
         }
-
+      
         int top;
         int stk[N];
-
+      
         inline void init() {
           for (int i = 0; i < cnt; ++i) {
             b[i] = read();
@@ -2249,10 +2225,10 @@ Manacher
 
         const int N = 10000 + 5;
         const int inf = 0x3f3f3f3f;
-
+        
         int dist[N];
         bool vis[N];
-
+        
         inline void dijkstra() {
           memset(dist, inf, sizeof(dist));
           dist[s] = 0;
@@ -2284,16 +2260,16 @@ Manacher
 
         const int N = 10000 + 5;
         const int inf = 0x3f3f3f3f;
-
+        
         int dist[N];
-
+        
         typedef __gnu_pbds::priority_queue<pair<int, int>, 
           greater<pair<int, int> >, pairing_heap_tag> heap;
-
+        
         heap::point_iterator id[N];
-
+        
         bool vis[N];
-
+        
         inline void dijkstra() {
           heap que;
           memset(dist, inf, sizeof(dist));
@@ -2343,7 +2319,7 @@ Manacher
 
             bool instk[N];
             long long dist[N];
-
+            
             bool dfs(int u) {
               instk[u] = 1;
               for (int o = head[u]; ~o; o = e[o].nxt) {
@@ -2358,7 +2334,7 @@ Manacher
               instk[u] = 0;
               return false;
             }
-
+            
             inline bool judge() {
               memset(dist, 0, sizeof(dist));
               memset(instk, 0, sizeof(instk));
@@ -2393,11 +2369,11 @@ Manacher
 
         const int N = 10000 + 5;
         const int inf = 0x3f3f3f3f;
-
+        
         int dist[N];
-
+        
         bool inq[N];
-
+        
         inline void spfa() {
           memset(dist, inf, sizeof(dist));
           queue <int> que;
@@ -2425,11 +2401,11 @@ Manacher
 
         const int N = 10000 + 5;
         const int inf = 0x3f3f3f3f;
-
+        
         int dist[N];
-
+        
         bool inq[N];
-
+        
         inline void spfa() {
           memset(dist, inf, sizeof(dist));
           deque <int> que;
