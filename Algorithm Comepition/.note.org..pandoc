@@ -1,0 +1,8 @@
+;; -*- mode: emacs-lisp -*-
+
+;; pandoc-mode local settings file for note.org
+;; saved on 2017.12.08 17:19
+
+((output-dir . "~/Notes/Algorithm Comepition/")
+ (output . "note.md")
+ (read . "org"))
