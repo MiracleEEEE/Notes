@@ -1,0 +1,95 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{struct} \PYG{n}{complx} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{double} \PYG{n}{x}\PYG{p}{;}
+  \PYG{k+kt}{double} \PYG{n}{y}\PYG{p}{;}
+
+  \PYG{n}{complx} \PYG{p}{(}\PYG{k+kt}{double} \PYG{n}{a} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{k+kt}{double} \PYG{n}{b} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{x} \PYG{o}{=} \PYG{n}{a}\PYG{p}{;}
+    \PYG{n}{y} \PYG{o}{=} \PYG{n}{b}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{};}
+
+\PYG{n}{complx} \PYG{k}{operator} \PYG{o}{+} \PYG{p}{(}\PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,} \PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{complx}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{+} \PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{+} \PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{complx} \PYG{k}{operator} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,} \PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{complx}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{,} \PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{\PYGZhy{}} \PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{complx} \PYG{k}{operator} \PYG{o}{*} \PYG{p}{(}\PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{a}\PYG{p}{,} \PYG{k}{const} \PYG{n}{complx} \PYG{o}{\PYGZam{}}\PYG{n}{b}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{return} \PYG{n}{complx}\PYG{p}{(}\PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{*} \PYG{n}{b}\PYG{p}{.}\PYG{n}{x} \PYG{o}{\PYGZhy{}} \PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{*} \PYG{n}{b}\PYG{p}{.}\PYG{n}{y}\PYG{p}{,} \PYG{n}{a}\PYG{p}{.}\PYG{n}{x} \PYG{o}{*} \PYG{n}{b}\PYG{p}{.}\PYG{n}{y} \PYG{o}{+} \PYG{n}{a}\PYG{p}{.}\PYG{n}{y} \PYG{o}{*} \PYG{n}{b}\PYG{p}{.}\PYG{n}{x}\PYG{p}{);}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{n}{complx} \PYG{n}{f1}\PYG{p}{[}\PYG{n}{N}\PYG{p}{];}
+\PYG{n}{complx} \PYG{n}{f2}\PYG{p}{[}\PYG{n}{N}\PYG{p}{];}
+\PYG{n}{complx} \PYG{n}{w}\PYG{p}{[}\PYG{n}{N}\PYG{p}{];}
+
+\PYG{k+kt}{int} \PYG{n}{n}\PYG{p}{;}
+\PYG{k+kt}{int} \PYG{n}{m}\PYG{p}{;}
+\PYG{k+kt}{int} \PYG{n}{bit}\PYG{p}{;}
+
+\PYG{k+kt}{int} \PYG{n}{lim}\PYG{p}{;}
+
+\PYG{k+kt}{int} \PYG{n}{rev}\PYG{p}{[}\PYG{n}{N}\PYG{p}{];}
+
+\PYG{k}{const} \PYG{k+kt}{double} \PYG{n}{pi} \PYG{o}{=} \PYG{n}{acos}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{p}{);}
+
+\PYG{k+kt}{void} \PYG{n+nf}{fft}\PYG{p}{(}\PYG{n}{complx} \PYG{n}{f}\PYG{p}{[],} \PYG{k+kt}{int} \PYG{n}{bit}\PYG{p}{,} \PYG{k+kt}{int} \PYG{n}{o}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{if} \PYG{p}{(}\PYG{n}{rev}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{n}{swap}\PYG{p}{(}\PYG{n}{f}\PYG{p}{[}\PYG{n}{rev}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]],} \PYG{n}{f}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]);}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{bit}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{j} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{n}{j} \PYG{o}{+=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+      \PYG{k+kt}{int} \PYG{n}{wn} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+      \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{k} \PYG{o}{=} \PYG{n}{j}\PYG{p}{;} \PYG{n}{k} \PYG{o}{\PYGZlt{}} \PYG{n}{j} \PYG{o}{+} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i}\PYG{p}{);} \PYG{o}{++}\PYG{n}{k}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+        \PYG{n}{complx} \PYG{n}{t} \PYG{o}{=} \PYG{n}{w}\PYG{p}{[}\PYG{n}{wn}\PYG{p}{]} \PYG{o}{*} \PYG{n}{f}\PYG{p}{[}\PYG{n}{k} \PYG{o}{+} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i}\PYG{p}{)];}
+        \PYG{n}{f}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]} \PYG{o}{=} \PYG{n}{f}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]} \PYG{o}{+} \PYG{n}{t}\PYG{p}{;}
+        \PYG{n}{f}\PYG{p}{[}\PYG{n}{k} \PYG{o}{+} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{i}\PYG{p}{)]} \PYG{o}{=} \PYG{n}{f}\PYG{p}{[}\PYG{n}{k}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{n}{t} \PYG{o}{\PYGZhy{}} \PYG{n}{t}\PYG{p}{;}
+        \PYG{n}{wn} \PYG{o}{+=} \PYG{n}{o} \PYG{o}{*} \PYG{p}{(}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{bit} \PYG{o}{\PYGZhy{}} \PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{);}
+        \PYG{k}{if} \PYG{p}{(}\PYG{n}{wn} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+          \PYG{n}{wn} \PYG{o}{+=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{bit}\PYG{p}{;}
+        \PYG{p}{\PYGZcb{}}
+      \PYG{p}{\PYGZcb{}}
+    \PYG{p}{\PYGZcb{}}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{int} \PYG{n+nf}{revbit}\PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{x}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{k+kt}{int} \PYG{n}{ret} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{bit}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{ret} \PYG{o}{\PYGZlt{}\PYGZlt{}=} \PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{n}{ret} \PYG{o}{|=} \PYG{n}{x} \PYG{o}{\PYGZam{}} \PYG{l+m+mi}{1}\PYG{p}{;}
+    \PYG{n}{x} \PYG{o}{\PYGZgt{}\PYGZgt{}=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{k}{return} \PYG{n}{ret}\PYG{p}{;}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kt}{void} \PYG{n+nf}{calc}\PYG{p}{()} \PYG{p}{\PYGZob{}}
+  \PYG{k}{while} \PYG{p}{((}\PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{bit}\PYG{p}{)} \PYG{o}{\PYGZlt{}} \PYG{n}{n} \PYG{o}{+} \PYG{n}{m}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{o}{++}\PYG{n}{bit}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{lim} \PYG{o}{=} \PYG{l+m+mi}{1} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{bit}\PYG{p}{;}
+
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{rev}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{revbit}\PYG{p}{(}\PYG{n}{i}\PYG{p}{);}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{w}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{].}\PYG{n}{x} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{p}{;}
+  \PYG{n}{w}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{complx}\PYG{p}{(}\PYG{n}{cos}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{pi} \PYG{o}{/} \PYG{n}{lim}\PYG{p}{),} \PYG{n}{sin}\PYG{p}{(}\PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{pi} \PYG{o}{/} \PYG{n}{lim}\PYG{p}{));}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{w}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{w}\PYG{p}{[}\PYG{n}{i} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{*} \PYG{n}{w}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{];}
+  \PYG{p}{\PYGZcb{}}
+
+  \PYG{n}{fft}\PYG{p}{(}\PYG{n}{f1}\PYG{p}{,} \PYG{n}{bit}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{n}{fft}\PYG{p}{(}\PYG{n}{f2}\PYG{p}{,} \PYG{n}{bit}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{f1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{f1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{*} \PYG{n}{f2}\PYG{p}{[}\PYG{n}{i}\PYG{p}{];}
+  \PYG{p}{\PYGZcb{}}
+  \PYG{n}{fft}\PYG{p}{(}\PYG{n}{f1}\PYG{p}{,} \PYG{n}{bit}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{);}
+  \PYG{k}{for} \PYG{p}{(}\PYG{k+kt}{int} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{0}\PYG{p}{;} \PYG{n}{i} \PYG{o}{\PYGZlt{}} \PYG{n}{lim}\PYG{p}{;} \PYG{o}{++}\PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+    \PYG{n}{f1}\PYG{p}{[}\PYG{n}{i}\PYG{p}{].}\PYG{n}{x} \PYG{o}{/=} \PYG{n}{lim}\PYG{p}{;}
+  \PYG{p}{\PYGZcb{}}
+\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

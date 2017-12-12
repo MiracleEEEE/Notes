@@ -1,0 +1,81 @@
+author: MiracleEEEE
+
+虚树
+====
+
+算法思想
+--------
+
+当问题的求解只涉及到树中的\\(k\\)个节点时，为了确保复杂度只与\\(k\\)相关，可选用的做法是把这\\(k\\)个节点提出来新建一棵树，我们管这颗新建的树叫虚树。
+
+资料：
+
+[虚树详解+例子分析+模板](https://www.cnblogs.com/chenhuan001/p/5639482.html)
+
+[BZOJ3572 Hnoi2014
+世界树](http://lazycal.logdown.com/posts/202331-bzoj3572)
+
+我们用一个栈维护当前构建虚树的最右链并将\\(k\\)个节点按照\\(dfn\\)排序，模拟\\(dfs\\)的过程依次插入。
+
+![](./Source/Picture/virtualtree.png)
+
+对于每一个插入的节点\\(x\\)，与栈顶元素取\\(lca\\)，设\\(lca(x,stk[top])=c\\)，那么依次取栈顶分情况讨论：
+
+1.  \\(dfn[c]=stk[top-1]\\)，即\\(c\\)为维护的栈中的元素
+2.  \\(dfn[c]>stk[top-1]\\)，即\\(c\\)在\\(stk[top]\\)和\\(stk[top-1]\\)之间
+3.  \\(dfn[c]<stk[top-1]\\)，即\\(c\\)在\\(stk[top-1]\\)之上
+
+对于情况\\(3\\)，直接把\\(stk[top]\\)退栈，并在\\(stk[top]\\)和\\(stk[top-1]\\)之间连边。
+
+对于情况\\(2\\)，把\\(stk[top]\\)退栈并在\\(stk[top]\\)和\\(c\\)之间连边，把\\(c\\)加入栈，退出。
+
+对于情况\\(1\\)，把\\(stk[top]\\)退栈并在\\(stk[top]\\)和\\(stk[top-1]\\)之间连边，退出。
+
+每次能直接退栈的原因是该子树已经遍历完毕，不会对后来的建树产生影响。
+
+实现
+----
+
+    const int N = 10000 + 5;
+
+    int dfn[N];
+
+    bool cmp(int a, int b) {
+      return dfn[a] < dfn[b];
+    }
+
+    int top;
+    int stk[N];
+
+    inline void init() {
+      for (int i = 0; i < cnt; ++i) {
+        b[i] = read();
+      }
+      sort(b, b + cnt, cmp);
+      top = 0;
+      stk[top++] = b[0];
+      for (int i = 1; i < cnt; ++i) {
+        if (top == 0) {
+          stk[top++] = b[i];
+          continue;
+        }
+        int c = lca(stk[top - 1], b[i]);
+        while (top > 0 && dfn[c] < dfn[stk[top - 1]]) {
+          if (top == 1 || dfn[c] >= dfn[stk[top - 2]]) {
+            add(c, stk[top - 1], dep[stk[top - 1]] - dep[c]);
+            --top;
+            if (top == 0 || stk[top - 1] != c) {
+              stk[top++] = c;
+            }
+            break;
+          }
+          add(stk[top - 2], stk[top - 1], dep[stk[top - 1]] - dep[stk[top - 2]]);
+          --top;
+        }
+        stk[top++] = b[i];
+      }
+      while (top > 1) {
+        add(stk[top - 2], stk[top - 1], dep[stk[top - 1]] - dep[stk[top - 2]]);
+        --top;
+      }
+    }

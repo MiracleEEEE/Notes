@@ -1,0 +1,156 @@
+#+TITLE: Art of Math
+#+AUTHOR: MiracleEEEE
+#+EMAIL: Miracle0073@outlook.com
+#+LATEX_CLASS: org-article
+
+* 高等数学
+** 多项式
+*** 多项式的定义
+
+一个以\(x\)为变量的多项式定义在一个代数域\(F\)，将函数\(A(x)\)的表示为形式和：
+
+#+BEGIN_LaTeX
+$$
+A(x)=\sum_{i=0}^{n-1} a_jx^j
+$$
+#+END_LaTeX
+
+我们称\(a_0,a_1,\cdots,a_{n-1}\)为如上多项式的系数，所有的系数都属于域\(F\)。如果一个多项式\(A(x)\)的最高次的非零系数是\(a_k\)，那么称\(A(x)\)的次数为\(k\)，记入\(degree(A)=k\)。任何一个大于一个多项式系数的次数的整数都是该多项式的次数界。
+
+*** 多项式的运算
+**** 多项式加法
+
+[[./Source/Polynomial/1.png]] 
+
+**** 多项式乘法
+
+两个次数界为\(n\)的多项式的乘积为一个次数界为\(2n-1\)的多项式。
+
+[[./Source/Polynomial/2.png]]
+
+[[./Source/Polynomial/3.png]]
+
+
+对于两个\(n\)次多项式乘法，朴素的多项式乘法的时间复杂度为\(O(n^2)\)。利用快速傅里叶变换算法可将时间复杂度优化到\(n\lg n\)。
+
+*** 多项式的表示
+**** 系数表达
+
+[[./Source/Polynomial/4.png]]
+
+一般将向量作为列向量看待。
+
+对于多项式在定点\(x_0\)的求值运算就是计算\(A(x_0)\)的值。使用霍纳法则，可以在\(O(n)\)的时间复杂度内完成求值运算。
+
+[[./Source/Polynomial/5.png]]
+
+由式子(30.2)推导出的系数向量\(c\)也称为输入向量\(a\)和\(b\)的卷积。表示成\(c=a \bigotimes b\)。
+
+**** 点值表达
+***** 点值表达的定义
+
+[[./Source/Polynomial/6.png]]
+
+一个多项式可以有多种点值表达。
+
+[[./Source/Polynomial/7.png]]
+
+如果选取复数单位根作为\(x_k\)，就可以将其运行时间变为\(O(\lg n)\)。对于一个点值表达的多项式，求它的在某个新点上的值得最简单的办法就是先把该多项式转换成系数表达，然后在新点处求值。
+
+***** 插值运算
+****** 高斯消元
+
+[[./Source/Polynomial/8.png]]
+
+我们可以利用高斯消元在\(O(n^3)\)的时间内求出这些方程的解。
+
+****** 拉格朗日公式
+
+[[./Source/Polynomial/9.png]]
+
+利用拉格朗日公式可以在\(O(n^2)\)的时间复杂度内求出多项式\(A\)的所有系数。首先\(O(n^2)\)求出
+
+#+BEGIN_LaTeX
+$$
+P(x)=\prod_j (x-x_j)
+$$
+#+END_LaTeX
+
+然后对于每个\(k\)，分子部分等于\(\frac{P(x)}{x-x_k}\)，分母部分可以\(O(n)\)计算得到。
+
+对于分子部分的计算：我们设\(A(x)=q(x)(x-x_k)+r\)，\(q(x)\)为\(A(x)\)除以\((x-x_j)\)的商，为一个\(n-1\)次多项式。考虑展开：
+
+#+BEGIN_LaTeX
+$$
+a_{n-1}x^{n-1}+a_{n-2}x^{n-2}+ \cdots +a_1x^1+a_0x^0=(x-x_k)(q_{n-2}x^{n-2}+q_{n-1}^x{n-1}+ \cdots +q_1x^1+q_0x^0)
+$$
+#+END_LaTeX
+
+将右边乘开，整理最后得到
+
+#+BEGIN_LaTeX
+$$
+\begin{aligned}
+q_{n-2}&x^{n-1}+q_{n-3}x^{n-2}+\cdots+q_0x^1=\\
+a_{n-1}&x^{n-1}+(a_{n-2}+x_kq_{n-2})x^{n-2}+\cdots+(a_1+x_kq_1)x^1+(a_0-r+x_kq_0)x^0
+\end{aligned}
+$$
+#+END_LaTeX
+
+那么：
+#+BEGIN_LaTeX
+$$
+\begin{aligned}
+q_{n-2}&=a_{n-1}\\
+q_{n-3}&=a_{n-2}+x_kq_{n-2}\\
+&\cdots\\
+q_0&=a_1+x_kq_1
+\end{aligned}
+$$
+#+END_LaTeX
+
+\(q(x)\)的系数可以在\(O(n)\)的时间内求出。总的时间复杂度为\(O(n^2)\)。不过从数值稳定的角度来说，会受到较大浮点数误差的影响。
+***** 点值表达下的加法乘法
+****** 加法
+
+[[./Source/Polynomial/10.png]]
+
+时间复杂度为\(O(n)\)。
+
+****** 乘法
+
+[[./Source/Polynomial/11.png]]
+** 复数
+*** 复数单位根
+
+[[./Source/Complex/1.png]]
+
+**** 复数单位根的运算性质
+***** 消去引理
+
+对于任何\(n \geq 0\)，\(k \geq 0\)，以及\(d>0\)，有：
+
+#+BEGIN_LaTeX
+$$
+\omega_{db}^{dk}=(e^{2\pi i/dn})^{dk}=(e^{2\pi i/n})^k=\omega_n^k
+$$
+#+END_LaTeX
+
+*推论*
+
+对于任意偶数\(n>0\)，有：
+
+#+BEGIN_LaTeX
+$$
+\omega_n^{n/2}=\omega_2=-1
+$$
+#+END_LaTeX
+
+***** 折半引理
+
+[[./Source/Complex/2.png]]
+
+这在\(FFT\)中是非常重要的。它保证了递归子问题的规模只是递归调用前的一半。
+***** 求和引理
+
+[[./Source/Complex/3.png]]
